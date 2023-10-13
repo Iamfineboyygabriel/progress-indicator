@@ -6,7 +6,19 @@ const messages = [
   "Invest your new income 🤑",
 ];
 
-function App() {
+export default function App() {
+  return (
+    <div>
+      <Steps />
+      <StepMessage step={1}>
+        <p>Pass in content</p>
+        <p>😊😊😊</p>
+      </StepMessage>
+    </div>
+  );
+}
+
+function Steps() {
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(true);
 
@@ -16,7 +28,7 @@ function App() {
 
   function handleNext() {
     if (step < 3) {
-      setStep((s) => s + 1); // Corrected the increment operator
+      setStep((s) => s + 1);
     }
   }
 
@@ -33,24 +45,15 @@ function App() {
             <div className={step >= 3 ? "active" : ""}>3</div>
           </div>
 
-          <p className="message">
-            Step {step}: {messages[step - 1]}
-          </p>
+          <StepMessage step={step}>{messages[step - 1]}</StepMessage>
 
           <div className="buttons">
-            <button
-              onClick={handlePrevious}
-              style={{ backgroundColor: "#7950f2", color: "#fff" }}
-            >
-              Previous
-            </button>
-
-            <button
-              onClick={handleNext}
-              style={{ backgroundColor: "#7950f2", color: "#fff" }}
-            >
-              Next
-            </button>
+            <Button bgColor="#7950f2" textColor="#fff" onClick={handlePrevious}>
+              <span>👈Previous</span>
+            </Button>
+            <Button bgColor="#7950f2" textColor="#fff" onClick={handleNext}>
+              <span>Next👉</span>
+            </Button>
           </div>
         </div>
       )}
@@ -58,4 +61,22 @@ function App() {
   );
 }
 
-export default App;
+function StepMessage({ step, children }) {
+  return (
+    <div className="message">
+      <h3>Step {step}</h3>
+      {children}
+    </div>
+  );
+}
+
+function Button({ textColor, bgColor, onClick, children }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{ backgroundColor: bgColor, color: textColor }}
+    >
+      {children}
+    </button>
+  );
+}
